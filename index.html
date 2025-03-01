@@ -10,7 +10,7 @@
     <meta property="og:description" content="2025年夏コミ(C106)までの残り日数をカウントダウン！準備は進んでいますか？" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://c106-countdown.example.com/" />
-    <meta property="og:image" content="data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='630' viewBox='0 0 1200 630'%3E%3Cdefs%3E%3ClinearGradient id='grad1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23FF0066;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%233300FF;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1200' height='630' fill='url(%23grad1)'/%3E%3Cg fill='%23FFFFFF' style='font-family: Arial, sans-serif; font-weight: bold; text-anchor: middle;'%3E%3Ctext x='600' y='200' style='font-size: 120px; fill: %23FFFFFF; text-shadow: 5px 5px 10px rgba(0,0,0,0.5);'%3EC106%3C/text%3E%3Ctext x='600' y='340' style='font-size: 120px; fill: %23FFFFFF; text-shadow: 5px 5px 10px rgba(0,0,0,0.5);'%3EDAYS_LEFT%3C/text%3E%3Ctext x='600' y='450' style='font-size: 80px; fill: %23FFFFFF;'%3ECOMICKET%3C/text%3E%3Ctext x='600' y='530' style='font-size: 50px; fill: %23FFFFFF;'%3E2025/08/15-17%3C/text%3E%3C/g%3E%3C/svg%3E" />
+    <meta property="og:image" content="https://via.placeholder.com/1200x630/FF0066/FFFFFF?text=C106%E3%81%BE%E3%81%A7%E3%81%82%E3%81%A8%E3%80%90%E6%97%A5%E6%95%B0%E3%80%91%E6%97%A5" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     
@@ -224,15 +224,12 @@
                     // Get OGP image tag
                     const ogImageTag = document.querySelector('meta[property="og:image"]');
                     
-                    // 日本語の文字化けを避けるためにURL-encodedのSVGを使用
-                    let svgContent = ogImageTag.getAttribute('content');
-                    
-                    // 日数を置換（英数字のみのプレースホルダーを使用）
-                    svgContent = svgContent.replace('DAYS_LEFT', `残り${daysLeft}日`);
-                    svgContent = svgContent.replace('COMICKET', `コミックマーケット`);
+                    // 外部サービスを使用したプレースホルダー画像
+                    // placeholderサービスでOGP画像を生成（日数を埋め込む）
+                    const ogImageUrl = `https://via.placeholder.com/1200x630/FF0066/FFFFFF?text=C106%E3%81%BE%E3%81%A7%E3%81%82%E3%81%A8${daysLeft}%E6%97%A5`;
                     
                     // Update OGP tag
-                    ogImageTag.setAttribute('content', svgContent);
+                    ogImageTag.setAttribute('content', ogImageUrl);
                 } catch (error) {
                     console.error('OGP更新エラー:', error);
                     // エラーが発生しても処理を継続
@@ -255,6 +252,7 @@
                     const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
                     const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
                     
+                    // 手動調整されたフォーマットを維持
                     document.getElementById('countdown').innerHTML = `あと${days}日`;
                     
                     // Update title with days left
