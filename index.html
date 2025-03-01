@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C106カウントダウン</title>
+    
+    <!-- OGP設定 -->
+    <meta property="og:title" content="C106まであと何日？" />
+    <meta property="og:description" content="2025年夏コミ(C106)までの残り日数をカウントダウン！準備は進んでいますか？" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://c106-countdown.example.com/" />
+    <meta property="og:image" content="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjAwIiBoZWlnaHQ9IjYzMCIgdmlld0JveD0iMCAwIDEyMDAgNjMwIj4KICAgIDxkZWZzPgogICAgICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZ3JhZDEiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgogICAgICAgICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojRkYwMDY2O3N0b3Atb3BhY2l0eToxIiAvPgogICAgICAgICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiMzMzAwRkY7c3RvcC1vcGFjaXR5OjEiIC8+CiAgICAgICAgPC9saW5lYXJHcmFkaWVudD4KICAgIDwvZGVmcz4KICAgIDxyZWN0IHdpZHRoPSIxMjAwIiBoZWlnaHQ9IjYzMCIgZmlsbD0idXJsKCNncmFkMSkiLz4KICAgIDxnIGZpbGw9IiNGRkZGRkYiIHN0eWxlPSJmb250LWZhbWlseTogQXJpYWwsIHNhbnMtc2VyaWY7IGZvbnQtd2VpZ2h0OiBib2xkOyB0ZXh0LWFuY2hvcjogbWlkZGxlOyBmb250LXNpemU6IDcwcHg7Ij4KICAgICAgICA8dGV4dCB4PSI2MDAiIHk9IjIwMCIgc3R5bGU9ImZvbnQtc2l6ZTogMTIwcHg7IGZpbGw6ICNGRkZGRkY7IHRleHQtc2hhZG93OiA1cHggNXB4IDEwcHggcmdiYSgwLDAsMCwwLjUpOyI+QzEwNjwvdGV4dD4KICAgICAgICA8dGV4dCB4PSI2MDAiIHk9IjM0MCIgc3R5bGU9ImZvbnQtc2l6ZTogMTIwcHg7IGZpbGw6ICNGRkZGRkY7IHRleHQtc2hhZG93OiA1cHggNXB4IDEwcHggcmdiYSgwLDAsMCwwLjUpOyI+dGltZV9sZWZ0PC90ZXh0PgogICAgICAgIDx0ZXh0IHg9IjYwMCIgWT0iNDUwIiBzdHlsZT0iZm9udC1zaXplOiA4MHB4OyBmaWxsOiAjRkZGRkZGOyI+44CF5pel5YiGKuOAheiRiSNkYXlzICM/PC90ZXh0PgogICAgICAgIDx0ZXh0IHg9IjYwMCIgeT0iNTMwIiBzdHlsZT0iZm9udC1zaXplOiA1MHB4OyBmaWxsOiAjRkZGRkZGOyI+44GX44Gf44GL77yf44KM44Gf77yf77yf44CR44CR44CR77yf77yfPC90ZXh0PgogICAgPC9nPgo8L3N2Zz4=" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #FF0066, #3300FF);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .container {
+            position: relative;
+            z-index: 2;
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 2rem;
+            text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+            animation: pulse 2s infinite;
+        }
+        
+        .countdown {
+            font-size: 8rem;
+            font-weight: 900;
+            margin: 1rem 0;
+            text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+        
+        .message {
+            font-size: 2rem;
+            margin: 2rem 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .dates {
+            font-size: 1.5rem;
+            margin-top: 2rem;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* 背景エフェクト */
+        .bg-effect {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            overflow: hidden;
+        }
+        
+        .bg-effect span {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            animation: float 8s linear infinite;
+        }
+        
+        .bg-effect span:nth-child(1) {
+            width: 60px;
+            height: 60px;
+            left: 20%;
+            animation-duration: 12s;
+        }
+        
+        .bg-effect span:nth-child(2) {
+            width: 80px;
+            height: 80px;
+            left: 50%;
+            animation-delay: 2s;
+            animation-duration: 18s;
+        }
+        
+        .bg-effect span:nth-child(3) {
+            width: 40px;
+            height: 40px;
+            left: 70%;
+            animation-delay: 4s;
+        }
+        
+        .bg-effect span:nth-child(4) {
+            width: 100px;
+            height: 100px;
+            left: 10%;
+            animation-delay: 6s;
+            animation-duration: 20s;
+        }
+        
+        .bg-effect span:nth-child(5) {
+            width: 50px;
+            height: 50px;
+            left: 85%;
+            animation-delay: 8s;
+        }
+        
+        /* アニメーション */
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+        
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            14% { transform: scale(1.1); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.1); }
+            70% { transform: scale(1); }
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-1000px) rotate(720deg);
+                opacity: 0;
+            }
+        }
+        
+        /* レスポンシブ対応 */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .countdown {
+                font-size: 5rem;
+            }
+            
+            .message {
+                font-size: 1.5rem;
+            }
+            
+            .dates {
+                font-size: 1.2rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .countdown {
+                font-size: 4rem;
+            }
+            
+            .message {
+                font-size: 1.2rem;
+            }
+            
+            .dates {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-effect">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <div class="container">
+        <h1>コミックマーケット106まで</h1>
+        <div class="countdown" id="countdown">???</div>
+        <div class="message">準備は進んでいますか？</div>
+        <div class="message">〆切は近づいています！！</div>
+        <div class="dates">C106開催予定：2025年8月15日(金)～17日(日)</div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // C106開催日（2025年8月15日）
+            const comicketDay = new Date('2025-08-15T00:00:00+09:00');
+            
+            // OGP画像用の日付更新関数
+            function updateOgpImage() {
+                try {
+                    const today = new Date();
+                    const timeLeft = comicketDay - today;
+                    const daysLeft = Math.ceil(timeLeft / (1000 * 60 * 60 * 24));
+                    
+                    // Get OGP image tag
+                    const ogImageTag = document.querySelector('meta[property="og:image"]');
+                    
+                    // Get current base64 SVG
+                    let svgBase64 = ogImageTag.getAttribute('content');
+                    
+                    // Decode it
+                    let svgData = atob(svgBase64.split(',')[1]);
+                    
+                    // Replace placeholder with actual days
+                    svgData = svgData.replace('time_left', `あと${daysLeft}日`);
+                    
+                    // Encode back to base64 - 修正: 日本語を適切にエンコード
+                    const updatedBase64 = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgData)));
+                    
+                    // Update OGP tag
+                    ogImageTag.setAttribute('content', updatedBase64);
+                } catch (error) {
+                    console.error('OGP更新エラー:', error);
+                    // エラーが発生しても処理を継続
+                }
+            }
+            
+            // カウントダウン更新関数
+            function updateCountdown() {
+                try {
+                    const now = new Date();
+                    const timeLeft = comicketDay - now;
+                    
+                    if (timeLeft < 0) {
+                        document.getElementById('countdown').textContent = "開催中！";
+                        return;
+                    }
+                    
+                    const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+                    
+                    document.getElementById('countdown').innerHTML = `あと${days}日`;
+                    
+                    // Update title with days left
+                    document.title = `C106まであと${days}日 - カウントダウン`;
+                } catch (error) {
+                    console.error('カウントダウン更新エラー:', error);
+                    document.getElementById('countdown').textContent = "計算中...";
+                }
+            }
+            
+            // 初回実行
+            updateOgpImage();
+            updateCountdown();
+            
+            // 1秒ごとにカウントダウンを更新
+            setInterval(updateCountdown, 1000);
+        });
+    </script>
+</body>
+</html> 
